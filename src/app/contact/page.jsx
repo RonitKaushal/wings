@@ -265,15 +265,13 @@ const ContactUsPage = () => {
       <div 
         className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat overflow-hidden"
         style={{
-          backgroundImage: 'url(/assets/new/24.png)',
+          backgroundImage: 'url(/assets/new/24.png)',          
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
         }}
       >
-        <div className="absolute inset-0 bg-black/40 z-10"></div>
-        
-        <div className="relative z-20 min-h-screen flex flex-col w-full">
+        <div className="relative min-h-screen flex flex-col w-full">
           {/* Navigation Bar */}
           <Navbar />
 
