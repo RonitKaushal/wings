@@ -271,7 +271,7 @@ const TravelCarousel = () => {
       case 0: // Far left background
         return {
           ...baseStyle,
-          left: '-5%',
+          left: '0%',
           top: '60px',
           zIndex: 1,
           transform: 'scale(0.7) rotateY(-25deg) rotateZ(-5deg)',
@@ -280,7 +280,7 @@ const TravelCarousel = () => {
       case 1: // Near left background
         return {
           ...baseStyle,
-          left: '10%',
+          left: '15%',
           top: '30px',
           zIndex: 2,
           transform: 'scale(0.8) rotateY(-15deg) rotateZ(-2deg)',
@@ -289,7 +289,7 @@ const TravelCarousel = () => {
       case 2: // Center main card
         return {
           ...baseStyle,
-          left: '30%',
+          left: '35%',
           top: '0px',
           zIndex: 4,
           transform: 'scale(1) rotateY(0deg) rotateZ(0deg)',
@@ -298,7 +298,7 @@ const TravelCarousel = () => {
       case 3: // Near right background
         return {
           ...baseStyle,
-          left: '50%',
+          left: '55%',
           top: '30px',
           zIndex: 2,
           transform: 'scale(0.8) rotateY(15deg) rotateZ(2deg)',
@@ -307,7 +307,7 @@ const TravelCarousel = () => {
       case 4: // Far right background
         return {
           ...baseStyle,
-          left: '65%',
+          left: '70%',
           top: '60px',
           zIndex: 1,
           transform: 'scale(0.7) rotateY(25deg) rotateZ(5deg)',
@@ -508,12 +508,13 @@ const TravelCarousel = () => {
       <div 
         className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat overflow-hidden"
         style={{
-          backgroundImage: 'url(https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1280&dpr=1)',
+          backgroundImage: 'url(/assets/new.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           height: '100vh',
-          maxHeight: '100vh'
+          maxHeight: '100vh',
+          backgroundAttachment: 'fixed'
         }}
       >
         <div className="relative z-20 h-full flex flex-col w-full">
