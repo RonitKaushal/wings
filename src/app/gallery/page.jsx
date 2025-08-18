@@ -4,218 +4,181 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, Play, Grid3X3, LayoutGrid, Layers } from 'lucide-react';
 import Footer from '../reusable/footer';
 import Navbar from '../reusable/navbar';
-// Extended collection of Pexels stock photos
-const images = [
-  'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/2064827/pexels-photo-2064827.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/3244513/pexels-photo-3244513.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/2187605/pexels-photo-2187605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1440476/pexels-photo-1440476.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/2161467/pexels-photo-2161467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1166209/pexels-photo-1166209.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1486222/pexels-photo-1486222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1320684/pexels-photo-1320684.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/2088205/pexels-photo-2088205.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1770809/pexels-photo-1770809.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1659438/pexels-photo-1659438.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1181292/pexels-photo-1181292.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1486222/pexels-photo-1486222.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1320684/pexels-photo-1320684.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/3244513/pexels-photo-3244513.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  'https://images.pexels.com/photos/1659438/pexels-photo-1659438.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+
+// Indian Tours Images
+const indianToursImages = [
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755492177/indian-1_grhv97.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755492177/indian-2_ifsbx4.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755492177/indian-3_xkyukl.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755492177/indian-4_lxevpf.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755492178/indian-5_dyxdhr.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755492180/indian-6_r8vfyg.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755492179/indian-7_cfz8yt.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755492178/indina-8_taxguw.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755492179/indian-9_lf6ygb.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755492178/indian-10_tmksms.jpg'
+];
+
+// International Tours Images
+const internationalToursImages = [
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755493185/int-1_xxa3te.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755493185/int-2_hkuopo.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755493185/int-3_rkryz3.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755493186/int-4_zydoue.jpg',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755493185/int-5_mq3dio.avif',
+  'https://res.cloudinary.com/dvrko1y0a/image/upload/v1755493186/int-6_pqejqa.jpg'
 ];
 
 const locations = [
-  'All', 'Italy', 'Dubai', 'London', 'Berlin', 'Rome', 'Lisbon', 'India', 'China', 'Japan', 'France', 'Spain', 'Greece', 'Norway', 'Thailand', 'Morocco'
+  'All', 'India Tours', 'International Tours', 'Beach Holidays', 'Adventure & Nature', 'Luxury Escapes', 'Seasonal Specials', 
 ];
 
 const travelData = [
+  // International Tours
   {
     id: 1,
-    image: images[0],
-    title: 'Alpine Lake Serenity',
-    location: 'Italy',
-    category: 'Nature',
+    image: internationalToursImages[0],
+    title: 'Swiss Alpine Paradise',
+    location: 'Switzerland',
+    category: 'International Tours',
     isVideo: false,
-    height: 300
+    height: 380
   },
   {
     id: 2,
-    image: images[1],
-    title: 'Golden Hour Flight',
-    location: 'Dubai',
-    category: 'Travel',
-    isVideo: true,
+    image: internationalToursImages[1],
+    title: 'European Countryside',
+    location: 'France',
+    category: 'International Tours',
+    isVideo: false,
     height: 400
   },
   {
     id: 3,
-    image: images[2],
-    title: 'Ancient Roman Glory',
-    location: 'Rome',
-    category: 'Historical',
+    image: internationalToursImages[2],
+    title: 'Mediterranean Coast',
+    location: 'Greece',
+    category: 'International Tours',
     isVideo: false,
-    height: 350
+    height: 360
   },
   {
     id: 4,
-    image: images[3],
-    title: 'Future City Lights',
-    location: 'Dubai',
-    category: 'Urban',
+    image: internationalToursImages[3],
+    title: 'Mountain Retreat',
+    location: 'Austria',
+    category: 'International Tours',
     isVideo: false,
-    height: 280
+    height: 380
   },
   {
     id: 5,
-    image: images[4],
-    title: 'Cherry Blossom Temple',
-    location: 'Japan',
-    category: 'Cultural',
-    isVideo: false,
-    height: 420
+    image: internationalToursImages[4],
+    title: 'Scandinavian Beauty',
+    location: 'Norway',
+    category: 'International Tours',
+    isVideo: true,
+    height: 400
   },
   {
     id: 6,
-    image: images[5],
-    title: 'London Bridge Evening',
-    location: 'London',
-    category: 'Urban',
+    image: internationalToursImages[5],
+    title: 'Italian Renaissance',
+    location: 'Italy',
+    category: 'International Tours',
     isVideo: false,
-    height: 300
+    height: 350
   },
+  // Indian Tours
   {
     id: 7,
-    image: images[6],
-    title: 'Berlin Architecture',
-    location: 'Berlin',
-    category: 'Modern',
+    image: indianToursImages[0],
+    title: 'Rajasthan Royalty',
+    location: 'Rajasthan, India',
+    category: 'India Tours',
     isVideo: false,
     height: 380
   },
   {
     id: 8,
-    image: images[7],
-    title: 'Lisbon Coastline',
-    location: 'Lisbon',
-    category: 'Nature',
+    image: indianToursImages[1],
+    title: 'Kerala Backwaters',
+    location: 'Kerala, India',
+    category: 'India Tours',
     isVideo: false,
-    height: 320
+    height: 400
   },
   {
     id: 9,
-    image: images[8],
-    title: 'Parisian Romance',
-    location: 'France',
-    category: 'Cultural',
+    image: indianToursImages[2],
+    title: 'Himalayan Majesty',
+    location: 'Himachal Pradesh, India',
+    category: 'India Tours',
     isVideo: false,
     height: 360
   },
   {
     id: 10,
-    image: images[9],
-    title: 'Barcelona Vibes',
-    location: 'Spain',
-    category: 'Urban',
-    isVideo: true,
-    height: 340
-  },
-  {
-    id: 11,
-    image: images[10],
-    title: 'Santorini Sunset',
-    location: 'Greece',
-    category: 'Romance',
-    isVideo: false,
-    height: 400
-  },
-  {
-    id: 12,
-    image: images[11],
-    title: 'Norwegian Fjords',
-    location: 'Norway',
-    category: 'Nature',
-    isVideo: false,
-    height: 450
-  },
-  {
-    id: 13,
-    image: images[12],
-    title: 'Thai Paradise',
-    location: 'Thailand',
-    category: 'Tropical',
-    isVideo: false,
-    height: 300
-  },
-  {
-    id: 14,
-    image: images[13],
-    title: 'Marrakech Markets',
-    location: 'Morocco',
-    category: 'Cultural',
-    isVideo: false,
-    height: 380
-  },
-  {
-    id: 15,
-    image: images[14],
-    title: 'Mumbai Chaos',
-    location: 'India',
-    category: 'Urban',
+    image: indianToursImages[3],
+    title: 'Mumbai Metropolis',
+    location: 'Maharashtra, India',
+    category: 'India Tours',
     isVideo: true,
     height: 320
   },
   {
-    id: 16,
-    image: images[15],
-    title: 'Shanghai Skyline',
-    location: 'China',
-    category: 'Modern',
+    id: 11,
+    image: indianToursImages[4],
+    title: 'Golden Temple Glory',
+    location: 'Punjab, India',
+    category: 'India Tours',
     isVideo: false,
-    height: 350
+    height: 390
   },
   {
-    id: 17,
-    image: images[16],
-    title: 'Venetian Canals',
-    location: 'Italy',
-    category: 'Historical',
-    isVideo: false,
-    height: 410
-  },
-  {
-    id: 18,
-    image: images[17],
-    title: 'London Eye Night',
-    location: 'London',
-    category: 'Urban',
-    isVideo: false,
-    height: 290
-  },
-  {
-    id: 19,
-    image: images[18],
-    title: 'German Countryside',
-    location: 'Berlin',
-    category: 'Nature',
+    id: 12,
+    image: indianToursImages[5],
+    title: 'Goan Paradise',
+    location: 'Goa, India',
+    category: 'India Tours',
     isVideo: false,
     height: 370
   },
   {
-    id: 20,
-    image: images[19],
-    title: 'Portuguese Coast',
-    location: 'Lisbon',
-    category: 'Beach',
+    id: 13,
+    image: indianToursImages[6],
+    title: 'Delhi Heritage',
+    location: 'Delhi, India',
+    category: 'India Tours',
     isVideo: false,
-    height: 330
+    height: 380
+  },
+  {
+    id: 14,
+    image: indianToursImages[7],
+    title: 'Varanasi Spirituality',
+    location: 'Uttar Pradesh, India',
+    category: 'India Tours',
+    isVideo: false,
+    height: 400
+  },
+  {
+    id: 15,
+    image: indianToursImages[8],
+    title: 'Ladakh Adventures',
+    location: 'Ladakh, India',
+    category: 'India Tours',
+    isVideo: false,
+    height: 380
+  },
+  {
+    id: 16,
+    image: indianToursImages[9],
+    title: 'Karnataka Culture',
+    location: 'Karnataka, India',
+    category: 'India Tours',
+    isVideo: false,
+    height: 350
   }
 ];
 
@@ -234,7 +197,7 @@ const TravelCarousel = () => {
     if (activeLocation === 'All') {
       setFilteredData(travelData);
     } else {
-      setFilteredData(travelData.filter(item => item.location === activeLocation));
+      setFilteredData(travelData.filter(item => item.category === activeLocation));
     }
     setCurrentSlide(0);
   }, [activeLocation]);
@@ -245,7 +208,7 @@ const TravelCarousel = () => {
 
   const nextSlide = () => {
     if (canNavigate) {
-      setCurrentSlide((prev) => (prev + 1) % (maxSlide + 1));
+      setCurrentSlide(prev => Math.min(prev + 1, maxSlide));
     }
   };
 

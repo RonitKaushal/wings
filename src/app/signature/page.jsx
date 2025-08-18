@@ -42,7 +42,7 @@ const Navbar = ({ showContactButton = true }) => {
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              <div className="relative h-18 w-24 sm:h-20 sm:w-26 md:h-22 md:w-28 lg:h-28 lg:w-32 transition-all duration-300 cursor-pointer hover:scale-105 flex-shrink-0">
+              <div className="relative h-32 w-40 sm:h-36 sm:w-44 md:h-40 md:w-48 lg:h-44 lg:w-52 transition-all duration-300 cursor-pointer hover:scale-105 flex-shrink-0">
                 <Image
                   onClick={() => router.push('/')}
                   src="/assets/wings.png"
@@ -60,7 +60,7 @@ const Navbar = ({ showContactButton = true }) => {
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              <div className="w-px h-20 md:h-24 lg:h-28 bg-black"></div>
+              <div className="w-px h-28 md:h-32 lg:h-36 bg-black"></div>
             </div>
 
             {/* Right Section: Company Info (Desktop) */}
@@ -70,12 +70,12 @@ const Navbar = ({ showContactButton = true }) => {
               }`}
             >
               {/* Travel Consultant */}
-              <div className="text-black text-base lg:text-lg font-semibold leading-tight mb-1" style={{ fontFamily: '"Bodoni Bd BT", serif' }}>
+              <div className="text-black text-lg lg:text-xl font-semibold leading-tight mb-2" style={{ fontFamily: '"Bodoni Bd BT", serif' }}>
                 Travel Consultant
               </div>
               
               {/* Company Name */}
-              <div className="text-black text-lg lg:text-xl font-bold leading-tight mb-2" style={{ fontFamily: '"Bodoni Bd BT", serif' }}>
+              <div className="text-black text-xl lg:text-2xl font-bold leading-tight mb-3" style={{ fontFamily: '"Bodoni Bd BT", serif' }}>
                 Wings & Wheels Travel and Tourism
               </div>
               
@@ -140,7 +140,7 @@ const Navbar = ({ showContactButton = true }) => {
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              <div className="relative h-14 w-20 transition-all duration-300 cursor-pointer hover:scale-105 flex-shrink-0">
+              <div className="relative h-20 w-28 transition-all duration-300 cursor-pointer hover:scale-105 flex-shrink-0">
                 <Image
                   onClick={() => router.push('/')}
                   src="/assets/wings.png"
@@ -158,7 +158,7 @@ const Navbar = ({ showContactButton = true }) => {
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              <div className="w-px h-16 bg-black"></div>
+              <div className="w-px h-24 bg-black"></div>
             </div>
 
             {/* Mobile Company Info */}
@@ -167,10 +167,10 @@ const Navbar = ({ showContactButton = true }) => {
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              <div className="text-black text-xs font-semibold leading-tight mb-1" style={{ fontFamily: '"Bodoni Bd BT", serif' }}>
+              <div className="text-black text-sm font-semibold leading-tight mb-1" style={{ fontFamily: '"Bodoni Bd BT", serif' }}>
                 Travel Consultant
               </div>
-              <div className="text-black text-sm font-bold leading-tight mb-1" style={{ fontFamily: '"Bodoni Bd BT", serif' }}>
+              <div className="text-black text-base font-bold leading-tight mb-1" style={{ fontFamily: '"Bodoni Bd BT", serif' }}>
                 Wings & Wheels Travel and Tourism
               </div>
               <div className="flex flex-col space-y-1 text-xs text-black">
