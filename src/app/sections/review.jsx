@@ -1,48 +1,56 @@
-import { ArrowUpRight, Star, Quote } from 'lucide-react';
+import { ArrowUpRight, Star, Quote } from "lucide-react";
 
 const reviews = [
-    {
-      id: 1,
-      name: "Priya Sharma",
-      location: "Dubai",
-      rating: 5,
-      review: "Booking with Wings & Wheels was the best decision I made for my Dubai trip. From the moment I contacted them, their team was super helpful and friendly. They handled my flight bookings, visa, hotel stay, and even airport transfers so smoothly. I didn't have to worry about anything. They also customized the package to fit my budget without compromising on quality. I loved how responsive they were—even at odd hours. This wasn't just a trip, it was a truly relaxing experience thanks to their planning. I'll definitely recommend them to my friends and family.",
-      image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"
-    },
-    {
-      id: 2,
-      name: "Ankit Mehta",
-      location: "Europe Tour",
-      rating: 5,
-      review: "A well-planned tour from start to finish. I didn't have to worry about a thing. Great support even during the trip!",
-      image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"
-    },
-    {
-      id: 3,
-      name: "Fatima Ali",
-      location: "Maldives",
-      rating: 5,
-      review: "Smooth booking, great support, stress-free trip. Highly recommend Wings & Wheels!",
-      image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"
-    },
-    {
-      id: 4,
-      name: "Sarah Johnson",
-      location: "Thailand",
-      rating: 5,
-      review: "Exceptional service and attention to detail. Made our honeymoon absolutely perfect!",
-      image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"
-    }
-  ];
-
+  {
+    id: 1,
+    name: "Priya Sharma",
+    location: "Dubai",
+    rating: 5,
+    review:
+      "Booking with Wings & Wheels was the best decision I made for my Dubai trip. From the moment I contacted them, their team was super helpful and friendly. They handled my flight bookings, visa, hotel stay, and even airport transfers so smoothly. I didn't have to worry about anything. They also customized the package to fit my budget without compromising on quality. I loved how responsive they were—even at odd hours. This wasn't just a trip, it was a truly relaxing experience thanks to their planning. I'll definitely recommend them to my friends and family.",
+    image:
+      "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2",
+  },
+  {
+    id: 2,
+    name: "Ankit Mehta",
+    location: "Europe Tour",
+    rating: 5,
+    review:
+      "A well-planned tour from start to finish. I didn't have to worry about a thing. Great support even during the trip!",
+    image:
+      "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2",
+  },
+  {
+    id: 3,
+    name: "Fatima Ali",
+    location: "Maldives",
+    rating: 5,
+    review:
+      "Smooth booking, great support, stress-free trip. Highly recommend Wings & Wheels!",
+    image:
+      "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2",
+  },
+  {
+    id: 4,
+    name: "Sarah Johnson",
+    location: "Thailand",
+    rating: 5,
+    review:
+      "Exceptional service and attention to detail. Made our honeymoon absolutely perfect!",
+    image:
+      "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2",
+  },
+];
 
 const review = () => {
-    
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-4 h-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+        className={`w-4 h-4 ${
+          i < rating ? "text-yellow-400 fill-current" : "text-gray-300"
+        }`}
       />
     ));
   };
@@ -50,22 +58,20 @@ const review = () => {
   return (
     <div>
       <section className="w-full bg-black text-white py-8 lg:py-12 min-h-screen flex flex-col">
-        <div className="max-w-7xl mx-auto px-4 w-full">
+        <div className="max-w-7xl mx-auto w-full">
           {/* Header */}
-          <div className="mb-8 lg:mb-12">
-            <h2 
-              className="text-2xl lg:text-3xl font-bold text-white mb-2"
-              style={{ fontFamily: '"Bodoni Bd BT", serif' }}
-            >
+          <div className="mb-10 lg:mb-12">
+            <h2 className="text-2xl lg:text-3xl font-bold mb-4 GeistBold">
               WHAT OUR CUSTOMERS SAY
             </h2>
-            <p className="text-sm lg:text-base text-gray-300 max-w-2xl leading-relaxed">
-              Our customers are at the heart of everything we do. Here's what real travelers say about their experiences with Wings & Wheels.
+            <p className="text-sm lg:text-base text-gray-200 max-w-2xl leading-relaxed Poppins">
+              Our customers are at the heart of everything we do. Here's what
+              real travelers say about their experiences with Wings & Wheels.
             </p>
           </div>
 
           {/* Reviews Grid */}
-          <div className="flex flex-col lg:flex-row gap-6 max-w-6xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-6 max-w-7xl mx-auto">
             {/* Left Side - Single Large Review */}
             <div className="lg:w-1/2 bg-white text-black p-8 rounded-2xl shadow-lg flex flex-col h-full">
               <div className="flex-grow">
@@ -110,7 +116,9 @@ const review = () => {
                   />
                   <div>
                     <h4 className="font-bold text-sm">{reviews[1].name}</h4>
-                    <p className="text-xs text-gray-600">{reviews[1].location}</p>
+                    <p className="text-xs text-gray-600">
+                      {reviews[1].location}
+                    </p>
                     <div className="flex space-x-0.5 mt-0.5">
                       {renderStars(reviews[1].rating)}
                     </div>
@@ -162,7 +170,9 @@ const review = () => {
                       loading="lazy"
                     />
                     <div>
-                      <h4 className="font-bold text-xs">{reviews[3]?.name || reviews[0].name}</h4>
+                      <h4 className="font-bold text-xs">
+                        {reviews[3]?.name || reviews[0].name}
+                      </h4>
                       <div className="flex items-center space-x-1">
                         <div className="flex">
                           {renderStars(reviews[3]?.rating || reviews[0].rating)}
@@ -176,9 +186,8 @@ const review = () => {
           </div>
         </div>
       </section>
-
     </div>
-  )
-}
+  );
+};
 
-export default review
+export default review;

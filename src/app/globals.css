@@ -121,4 +121,113 @@
   }
 }
 
+@font-face {
+  font-family: 'Poppins';
+  src: url('/Poppins/Poppins-Regular.ttf') format('truetype');
+}
 
+.Poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ///////////////////////////////// */
+.PoppinBold {
+  font-family: 'PoppinBold', sans-serif;
+}
+
+@font-face {
+  font-family: 'PoppinBold';
+  src: url('/Poppins/Poppins-Bold.ttf') format('truetype');
+}
+
+/* ////////////////////////////////////// */
+.PoppinMedium {
+  font-family: 'PoppinMediam', sans-serif;
+}
+
+/* ///////////////////////////////////////////////////////////////// */
+/* Geist-Regular */
+@font-face {
+  font-family: 'Geist';
+  src: url('/Geist/Geist-Regular.ttf') format('truetype');
+}
+.Geist {
+  font-family: 'Geist', sans-serif;
+}
+
+/* Geist-Bold */
+@font-face {
+  font-family: 'GeistBold';
+  src: url('/Geist/Geist-Bold.ttf') format('truetype');
+}
+.GeistBold {
+  font-family: 'GeistBold', sans-serif;
+}
+
+/* Geist-Black */
+@font-face {
+  font-family: 'GeistBlack';
+  src: url('/Geist/Geist-Black.ttf') format('truetype');
+}
+.GeistBlack {
+  font-family: 'GeistBlack', sans-serif;
+}
+
+/* Geist-ExtraBold */
+@font-face {
+  font-family: 'GeistExtraBold';
+  src: url('/Geist/Geist-ExtraBold.ttf') format('truetype');
+}
+.GeistExtraBold {
+  font-family: 'GeistExtraBold', sans-serif;
+}
+
+/* Geist-ExtraLight */
+@font-face {
+  font-family: 'GeistExtraLight';
+  src: url('/Geist/Geist-ExtraLight.ttf') format('truetype');
+}
+.GeistExtraLight {
+  font-family: 'GeistExtraLight', sans-serif;
+}
+
+/* Geist-Light */
+@font-face {
+  font-family: 'GeistLight';
+  src: url('/Geist/Geist-Light.ttf') format('truetype');
+}
+.GeistLight {
+  font-family: 'GeistLight', sans-serif;
+}
+
+/* Geist-Medium */
+@font-face {
+  font-family: 'GeistMedium';
+  src: url('/Geist/Geist-Medium.ttf') format('truetype');
+}
+.GeistMedium {
+  font-family: 'GeistMedium', sans-serif;
+}
+
+/* Geist-SemiBold */
+@font-face {
+  font-family: 'GeistSemiBold';
+  src: url('/Geist/Geist-SemiBold.ttf') format('truetype');
+}
+.GeistSemiBold {
+  font-family: 'GeistSemiBold', sans-serif;
+}
+
+/* Geist-Thin */
+@font-face {
+  font-family: 'GeistThin';
+  src: url('/Geist/Geist-Thin.ttf') format('truetype');
+}
+.GeistThin {
+  font-family: 'GeistThin', sans-serif;
+}
+body
+{
+    font-family: 'Poppins', sans-serif;
+
+}

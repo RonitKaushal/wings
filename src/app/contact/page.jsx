@@ -9,6 +9,8 @@ import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group';
 import { Label } from '../../components/ui/label';
 import { Separator } from '../../components/ui/separator';
 import { Country, State, City } from 'country-state-city';
+import Footer from "../reusable/footer";
+
 import { 
   Facebook, 
   Instagram, 
@@ -43,6 +45,176 @@ const ContactUsPage = () => {
     return State.getStatesOfCountry(countryCode);
   };
   
+  // Handle input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle visa details change
+  const handleVisaDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      visaDetails: {
+        ...prev.visaDetails,
+        [name]: value
+      }
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setSubmitError('');
+
+    try {
+      // Base booking data
+      const bookingData = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        whatsappNumber: formData.whatsappNumber || formData.phone, // Use phone if whatsapp not provided
+        serviceType: serviceType,
+        nationality: formData.nationality || 'Not specified',
+        destinationCountry: destinationCountry,
+        destinationState: destinationState,
+        message: formData.message
+      };
+
+      // Add service-specific data
+      switch(serviceType) {
+        case 'visa':
+          bookingData.visaDetails = {
+            age: formData.visaDetails.age,
+            gender: formData.visaDetails.gender,
+            numberOfVisas: formData.visaDetails.numberOfVisas,
+            visaType: visaType,
+            visaCountry: visaCountry
+          };
+          break;
+          
+        case 'flights':
+          bookingData.flightDetails = {
+            tripType: tripType,
+            flightClass: flightClass,
+            departureCity: departureCity,
+            arrivalCity: arrivalCity,
+            departureDate: flightDepartureDate,
+            returnDate: tripType === 'round-trip' ? flightReturnDate : undefined,
+            preferredAirline: preferredAirline,
+            adults: flightAdults,
+            children: flightChildren,
+            infants: flightInfants
+          };
+          break;
+          
+        case 'hotels':
+          bookingData.hotelDetails = {
+            destinationCity: hotelDestinationCity,
+            numberOfGuests: parseInt(numberOfGuests) || 1,
+            checkInDate: checkInDate,
+            checkOutDate: checkOutDate,
+            numberOfRooms: parseInt(numberOfRooms) || 1,
+            roomType: roomType,
+            budget: hotelBudget
+          };
+          break;
+          
+        case 'tours':
+          bookingData.toursDetails = {
+            departureDate: checkInDate, // Reusing checkInDate for tours
+            numberOfNights: parseInt(numberOfNights) || 1,
+            hotelStars: hotelStars,
+            budget: toursBudget,
+            adults: toursAdults,
+            children: toursChildren,
+            infants: toursInfants
+          };
+          break;
+      }
+
+      const response = await fetch('https://wwtravels.net/api/bookings/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to submit booking');
+      }
+
+      setIsSubmitted(true);
+      
+      // Reset form
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        whatsappNumber: '',
+        serviceType: 'visa',
+        nationality: '',
+        visaDetails: {
+          age: '',
+          gender: 'male',
+          numberOfVisas: '1',
+          visaType: '',
+          visaCountry: ''
+        },
+        message: ''
+      });
+      
+      // Reset all service-specific states
+      setVisaType('');
+      setVisaCountry('');
+      setDestinationCountry('');
+      setDestinationState('');
+      
+      // Reset flight states
+      setTripType('round-trip');
+      setFlightClass('economy');
+      setDepartureCity('');
+      setArrivalCity('');
+      setFlightDepartureDate('');
+      setFlightReturnDate('');
+      setPreferredAirline('');
+      setFlightAdults(1);
+      setFlightChildren(0);
+      setFlightInfants(0);
+      
+      // Reset hotel states
+      setHotelDestinationCity('');
+      setCheckInDate('');
+      setCheckOutDate('');
+      setNumberOfGuests('');
+      setNumberOfRooms('');
+      setRoomType('');
+      setHotelBudget('');
+      
+      // Reset tours states
+      setNumberOfNights('');
+      setHotelStars('');
+      setToursBudget('');
+      setToursAdults(1);
+      setToursChildren(0);
+      setToursInfants(0);
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitError(error.message || 'An error occurred while submitting the form. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Handle country change
   const handleCountryChange = (countryCode) => {
     setDestinationCountry(countryCode);
@@ -59,6 +231,27 @@ const ContactUsPage = () => {
   
   // Get states for selected country
   const states = getStates(destinationCountry);
+    // Form state
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    whatsappNumber: '',
+    serviceType: 'visa',
+    nationality: '',
+    visaDetails: {
+      age: '',
+      gender: 'male',
+      numberOfVisas: '1',
+      visaType: '',
+      visaCountry: ''
+    },
+    message: ''
+  });
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [visaType, setVisaType] = useState('');
   const [visaCountry, setVisaCountry] = useState('');
   const [isVisible, setIsVisible] = useState(false);
@@ -111,7 +304,7 @@ const ContactUsPage = () => {
             type="button"
             variant="outline"
             size="icon"
-            className="h-8 w-8 rounded-full border-2 border-blue-600 text-blue-600 hover:bg-blue-50"
+            className="h-8 w-8 rounded-full border border-blue-600 text-blue-600 hover:bg-blue-50"
             onClick={() => setValue(Math.max(min, value - 1))}
             disabled={value <= min}
           >
@@ -122,7 +315,7 @@ const ContactUsPage = () => {
             type="button"
             variant="outline"
             size="icon"
-            className="h-8 w-8 rounded-full border-2 border-blue-600 text-blue-600 hover:bg-blue-50"
+            className="h-8 w-8 rounded-full border border-blue-600 text-blue-600 hover:bg-blue-50"
             onClick={() => setValue(Math.min(max, value + 1))}
             disabled={value >= max}
           >
@@ -281,35 +474,26 @@ const ContactUsPage = () => {
               <div className="text-center px-4 sm:px-8">
                 {/* Main Heading */}
                 <h1 
-                  className={`font-bold mb-4 uppercase tracking-wider leading-tight text-white transition-all duration-1000 ${
+                  className={`text-7xl mb-4 uppercase tracking-wider leading-tight text-white transition-all duration-1000 GeistBlack ${
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                   }`}
-                  style={{
-                    fontFamily: 'Poppins, Roboto, Arial, sans-serif',
-                    fontSize: 'clamp(3rem, 7vw, 5rem)',
-                    fontWeight: '800',
-                    textShadow: '3px 3px 6px rgba(0, 0, 0, 0.6)',
-                    letterSpacing: '2px',
-                  }}
                 >
                   CONTACT US
                 </h1>
 
                 {/* Description */}
                 <p 
-                  className={`font-light leading-relaxed mb-6 max-w-2xl mx-auto text-white transition-all duration-1200 ${
+                  className={`text-xl leading-relaxed mb-6 max-w-2xl mx-auto text-white transition-all duration-1200 Poppins ${
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                   }`}
-                  style={{
-                    fontFamily: 'Poppins, Roboto, Arial, sans-serif',
-                    fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
-                  }}
                 >
                   Have questions? Ready to book your trip? Our travel experts are here to help you every step of the way. Whether you need flight options, visa help, or a full vacation plan—we're just a message away.
                 </p>
               </div>
             </div>
+
+                        <div className="absolute z-0 top-0 left-0 w-[100vw] h-full bg-gradient-to-b from-white/80 via-transparent to-transparent"></div>
+
           </div>
         </div>
       </div>
@@ -320,25 +504,20 @@ const ContactUsPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Contact Form */}
             <div className="lg:col-span-7">
-              <Card className="bg-white border border-gray-200 shadow-lg">
+              <Card className="bg-white border">
                 <CardContent className="p-6 sm:p-8">
                   <h2 
                     className="text-black mb-4 font-bold uppercase text-center"
-                    style={{
-                      fontFamily: 'Inter, Poppins, Roboto, Arial, sans-serif',
-                      fontSize: 'clamp(1.3rem, 3vw, 1.5rem)',
-                    }}
                   >
                     Get In Touch With Us
                   </h2>
                   
-                  <form className="mt-4 space-y-4">
+                  <form onSubmit={handleSubmit} className="mt-4 space-y-4">
                     {/* Personal Information Section */}
                     <Card className="shadow-none border border-gray-100">
                       <CardContent className="p-3">
                         <h3 
-                          className="text-gray-800 mb-3 font-semibold text-lg border-b-2 border-blue-600 pb-1 inline-block"
-                          style={{ fontFamily: 'Inter, Poppins, Roboto, Arial, sans-serif' }}
+                          className="text-gray-800 mb-3 font-semibold text-lg border-b border-gray-200 pb-1 inline-block"
                         >
                           Personal Information
                         </h3>
@@ -347,27 +526,33 @@ const ContactUsPage = () => {
                           <div>
                             <Label 
                               className="text-gray-600 mb-1 text-xs font-semibold uppercase block"
-                              style={{ fontFamily: 'Inter, Poppins, Roboto, Arial, sans-serif' }}
                             >
                               Full Name *
                             </Label>
                             <Input
+                              name="fullName"
+                              value={formData.fullName}
+                              onChange={handleInputChange}
                               placeholder="Enter your full name"
-                              className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                              className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                              required
                             />
                           </div>
 
                           <div>
                             <Label 
                               className="text-gray-600 mb-1 text-xs font-semibold uppercase block"
-                              style={{ fontFamily: 'Inter, Poppins, Roboto, Arial, sans-serif' }}
                             >
                               Email Address *
                             </Label>
                             <Input
                               type="email"
+                              name="email"
+                              value={formData.email}
+                              onChange={handleInputChange}
                               placeholder="Enter your email address"
-                              className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                              className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                              required
                             />
                           </div>
 
@@ -377,10 +562,25 @@ const ContactUsPage = () => {
                             >
                               Phone Number *
                             </Label>
-                            <Input
-                              placeholder="Enter your phone number"
-                              className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
-                            />
+                            <div className="space-y-2">
+                              <Input
+                                name="phone"
+                                type="tel"
+                                value={formData.phone}
+                                onChange={handleInputChange}
+                                placeholder="Enter your phone number"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                required
+                              />
+                              <Input
+                                name="whatsappNumber"
+                                type="tel"
+                                value={formData.whatsappNumber}
+                                onChange={handleInputChange}
+                                placeholder="WhatsApp number (if different)"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                              />
+                            </div>
                           </div>
 
                           <div>
@@ -390,11 +590,16 @@ const ContactUsPage = () => {
                               Nationality *
                             </Label>
                             <Select 
-                              value={nationality} 
-                              onValueChange={setNationality}
+                              value={formData.nationality} 
+                              onValueChange={(value) => {
+                                setFormData(prev => ({
+                                  ...prev,
+                                  nationality: value
+                                }));
+                              }}
                             >
                               <SelectTrigger 
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 w-full transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                                 style={{ backgroundColor: '#f9fafb', color: 'black' }}
                               >
                                 <SelectValue placeholder="Select your nationality" />
@@ -420,7 +625,7 @@ const ContactUsPage = () => {
                     <Card className="shadow-none border border-gray-100">
                       <CardContent className="p-3">
                         <h3 
-                          className="text-gray-800 mb-3 font-semibold text-lg border-b-2 border-blue-600 pb-1 inline-block"
+                          className="text-gray-800 mb-3 font-semibold text-lg border-b border-gray-200 pb-1 inline-block"
                         >
                           Service Information
                         </h3>
@@ -432,9 +637,18 @@ const ContactUsPage = () => {
                             >
                               Service Type *
                             </Label>
-                            <Select value={serviceType} onValueChange={setServiceType}>
+                            <Select 
+                              value={serviceType} 
+                              onValueChange={(value) => {
+                                setServiceType(value);
+                                setFormData(prev => ({
+                                  ...prev,
+                                  serviceType: value
+                                }));
+                              }}
+                            >
                               <SelectTrigger 
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 w-full transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                                 style={{ backgroundColor: '#f9fafb', color: 'black' }}
                               >
                                 <SelectValue placeholder="What service do you need?" />
@@ -467,7 +681,7 @@ const ContactUsPage = () => {
                               onValueChange={handleCountryChange}
                             >
                               <SelectTrigger 
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 w-full transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                                 style={{ backgroundColor: '#f9fafb', color: 'black' }}
                               >
                                 <SelectValue placeholder="Select a country" />
@@ -496,7 +710,7 @@ const ContactUsPage = () => {
                                 onValueChange={handleStateChange}
                                 disabled={!destinationCountry}
                               >
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue 
                                     placeholder={
                                       selectedCountryObj 
@@ -527,10 +741,10 @@ const ContactUsPage = () => {
 
                     {/* Flight Reservation Section */}
                     {serviceType === 'flights' && (
-                      <Card className="shadow-none border border-gray-100">
+                      <Card className="shadow-none border">
                         <CardContent className="p-3">
                           <h3 
-                            className="text-gray-800 mb-3 font-semibold text-lg border-b-2 border-blue-600 pb-1 inline-block"
+                            className="text-gray-800 mb-3 font-semibold text-lg border pb-1 inline-block"
                           >
                             Flight Reservation Details
                           </h3>
@@ -561,7 +775,7 @@ const ContactUsPage = () => {
                                 Flight Class *
                               </Label>
                               <Select value={flightClass} onValueChange={setFlightClass}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg bg-white">
@@ -588,7 +802,7 @@ const ContactUsPage = () => {
                                 Departure City *
                               </Label>
                               <Select value={departureCity} onValueChange={setDepartureCity}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue placeholder="Select departure city" />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg max-h-96 bg-white">
@@ -612,7 +826,7 @@ const ContactUsPage = () => {
                                 Arrival City *
                               </Label>
                               <Select value={arrivalCity} onValueChange={setArrivalCity}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue placeholder="Select arrival city" />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg max-h-96 bg-white">
@@ -639,7 +853,7 @@ const ContactUsPage = () => {
                                 type="date"
                                 value={flightDepartureDate}
                                 onChange={(e) => setFlightDepartureDate(e.target.value)}
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                               />
                             </div>
 
@@ -654,7 +868,7 @@ const ContactUsPage = () => {
                                   type="date"
                                   value={flightReturnDate}
                                   onChange={(e) => setFlightReturnDate(e.target.value)}
-                                  className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                  className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                                 />
                               </div>
                             )}
@@ -666,7 +880,7 @@ const ContactUsPage = () => {
                                 Preferred Airline (Optional)
                               </Label>
                               <Select value={preferredAirline} onValueChange={setPreferredAirline}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue placeholder="Any airline" />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg max-h-96 bg-white">
@@ -738,7 +952,7 @@ const ContactUsPage = () => {
                                 Hotel Destination City *
                               </Label>
                               <Select value={hotelDestinationCity} onValueChange={setHotelDestinationCity}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue placeholder="Select destination city" />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg max-h-96 bg-white">
@@ -767,7 +981,7 @@ const ContactUsPage = () => {
                                 value={numberOfGuests}
                                 onChange={(e) => setNumberOfGuests(e.target.value)}
                                 min="1"
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                               />
                             </div>
 
@@ -781,7 +995,7 @@ const ContactUsPage = () => {
                                 type="date"
                                 value={checkInDate}
                                 onChange={(e) => setCheckInDate(e.target.value)}
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                               />
                             </div>
 
@@ -795,7 +1009,7 @@ const ContactUsPage = () => {
                                 type="date"
                                 value={checkOutDate}
                                 onChange={(e) => setCheckOutDate(e.target.value)}
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                               />
                             </div>
 
@@ -811,7 +1025,7 @@ const ContactUsPage = () => {
                                 value={numberOfRooms}
                                 onChange={(e) => setNumberOfRooms(e.target.value)}
                                 min="1"
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                               />
                             </div>
 
@@ -822,7 +1036,7 @@ const ContactUsPage = () => {
                                 Room Type (Optional)
                               </Label>
                               <Select value={roomType} onValueChange={setRoomType}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue placeholder="Any room type" />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg bg-white">
@@ -852,7 +1066,7 @@ const ContactUsPage = () => {
                                 Budget Range (Optional)
                               </Label>
                               <Select value={hotelBudget} onValueChange={setHotelBudget}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue placeholder="Select budget range" />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg bg-white">
@@ -895,8 +1109,14 @@ const ContactUsPage = () => {
                               </Label>
                               <Input
                                 type="number"
+                                name="age"
+                                value={formData.visaDetails.age}
+                                onChange={handleVisaDetailsChange}
                                 placeholder="Enter your age"
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                min="1"
+                                max="120"
+                                required
                               />
                             </div>
                             
@@ -906,7 +1126,19 @@ const ContactUsPage = () => {
                               >
                                 Gender
                               </Label>
-                              <RadioGroup value={gender} onValueChange={setGender} className="flex flex-row mt-1">
+                              <RadioGroup 
+                                value={formData.visaDetails.gender} 
+                                onValueChange={(value) => {
+                                  setFormData(prev => ({
+                                    ...prev,
+                                    visaDetails: {
+                                      ...prev.visaDetails,
+                                      gender: value
+                                    }
+                                  }));
+                                }} 
+                                className="flex flex-row mt-1"
+                              >
                                 <div className="flex items-center space-x-2">
                                   <RadioGroupItem value="male" id="male" />
                                   <Label htmlFor="male" className="text-gray-600">Male</Label>
@@ -926,9 +1158,13 @@ const ContactUsPage = () => {
                               </Label>
                               <Input
                                 type="number"
+                                name="numberOfVisas"
+                                value={formData.visaDetails.numberOfVisas}
+                                onChange={handleVisaDetailsChange}
                                 placeholder="How many visas?"
                                 min="1"
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                required
                               />
                             </div>
 
@@ -938,8 +1174,21 @@ const ContactUsPage = () => {
                               >
                                 Visa Type
                               </Label>
-                              <Select value={visaType} onValueChange={setVisaType}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                              <Select 
+                                value={visaType} 
+                                onValueChange={(value) => {
+                                  setVisaType(value);
+                                  setFormData(prev => ({
+                                    ...prev,
+                                    visaDetails: {
+                                      ...prev.visaDetails,
+                                      visaType: value
+                                    }
+                                  }));
+                                }}
+                                required
+                              >
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue placeholder="Select visa type" />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg bg-white">
@@ -968,8 +1217,21 @@ const ContactUsPage = () => {
                               >
                                 Which Country's Visa Do You Want?
                               </Label>
-                              <Select value={visaCountry} onValueChange={setVisaCountry}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                              <Select 
+                                value={visaCountry} 
+                                onValueChange={(value) => {
+                                  setVisaCountry(value);
+                                  setFormData(prev => ({
+                                    ...prev,
+                                    visaDetails: {
+                                      ...prev.visaDetails,
+                                      visaCountry: value
+                                    }
+                                  }));
+                                }}
+                                required
+                              >
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue placeholder="Select visa country" />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg max-h-96 bg-white">
@@ -1009,7 +1271,7 @@ const ContactUsPage = () => {
                               </Label>
                               <Input
                                 type="date"
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                               />
                             </div>
                             
@@ -1025,7 +1287,7 @@ const ContactUsPage = () => {
                                 value={numberOfNights}
                                 onChange={(e) => setNumberOfNights(e.target.value)}
                                 min="1"
-                                className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
+                                className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg"
                               />
                             </div>
 
@@ -1036,7 +1298,7 @@ const ContactUsPage = () => {
                                 Hotel Star Rating (Optional)
                               </Label>
                               <Select value={hotelStars} onValueChange={setHotelStars}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue placeholder="Select preferred star rating" />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg bg-white">
@@ -1063,7 +1325,7 @@ const ContactUsPage = () => {
                                 Budget Per Person (Optional)
                               </Label>
                               <Select value={toursBudget} onValueChange={setToursBudget}>
-                                <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                                <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                                   <SelectValue placeholder="Select budget range" />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl border border-gray-200 shadow-lg bg-white">
@@ -1124,7 +1386,7 @@ const ContactUsPage = () => {
                     <Card className="shadow-none border border-gray-100">
                       <CardContent className="p-3">
                         <h3 
-                          className="text-gray-800 mb-3 font-semibold text-lg border-b-2 border-blue-600 pb-1 inline-block"
+                          className="text-gray-800 mb-3 font-semibold text-lg border-b pb-1 inline-block"
                         >
                           Your Message
                         </h3>
@@ -1135,21 +1397,46 @@ const ContactUsPage = () => {
                           Tell us about your requirements
                         </Label>
                         <Textarea
-                          rows={4}
-                          placeholder="Please provide details about your travel requirements, special requests, budget considerations, or any questions you have..."
-                          className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg resize-none"
-                        />
+                            name="message"
+                            value={formData.message}
+                            onChange={handleInputChange}
+                            rows={4}
+                            placeholder="Please provide details about your travel requirements, special requests, budget considerations, or any questions you have..."
+                            className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg resize-none"
+                          />
                       </CardContent>
                     </Card>
 
                     {/* Submit Button */}
                     <div className="text-center mt-4">
                       <div className="h-4"></div>
-                      <Button
-                        className="py-2 px-6 rounded-full bg-black text-white text-lg font-semibold uppercase shadow-lg transition-all duration-300 hover:bg-gray-800 hover:-translate-y-0.5 hover:shadow-xl"
-                      >
-                        Send My Request
-                      </Button>
+                      {isSubmitted ? (
+                        <div className="p-4 bg-green-50 text-green-700 rounded-lg border border-green-200">
+                          <p className="font-medium">Thank you for your submission!</p>
+                          <p className="text-sm">We'll get back to you soon.</p>
+                        </div>
+                      ) : (
+                        <Button
+                          type="submit"
+                          className={`py-2 px-6 rounded-full bg-black text-white text-lg font-semibold uppercase shadow-lg transition-all duration-300 hover:bg-gray-800 hover:-translate-y-0.5 hover:shadow-xl ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
+                          disabled={isLoading}
+                        >
+                          {isLoading ? (
+                            <span className="flex items-center">
+                              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              Submitting...
+                            </span>
+                          ) : 'Send My Request'}
+                        </Button>
+                      )}
+                      {submitError && (
+                        <div className="mt-4 p-3 bg-red-50 text-red-700 rounded-lg border border-red-200 text-sm">
+                          {submitError}
+                        </div>
+                      )}
                     </div>
                   </form>
                 </CardContent>
@@ -1159,7 +1446,7 @@ const ContactUsPage = () => {
             {/* Contact Details */}
             <div className="lg:col-span-5 space-y-3">
               {/* GET IN TOUCH Box */}
-              <Card className="bg-white border border-gray-200 shadow-lg">
+              <Card className="bg-white border">
                 <CardContent className="p-4">
                   <h2 
                     className="mb-3 font-bold uppercase text-lg text-center"
@@ -1175,7 +1462,7 @@ const ContactUsPage = () => {
                       Select Office Location
                     </Label>
                     <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-                      <SelectTrigger className="rounded-lg bg-gray-50 border-2 border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
+                      <SelectTrigger className="rounded-lg bg-gray-50 border border-gray-200 transition-all duration-300 hover:bg-gray-100 hover:border-blue-600 hover:shadow-md focus:bg-white focus:border-blue-600 focus:shadow-lg">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-xl border border-gray-200 shadow-lg bg-white">
@@ -1262,7 +1549,7 @@ const ContactUsPage = () => {
               <div className="h-4"></div>
 
               {/* ENHANCED SOCIAL MEDIA Box */}
-              <Card className="bg-white border border-gray-200 shadow-lg">
+              <Card className="bg-white border">
                 <CardContent className="p-4">
                   <h2 
                     className="mb-4 font-bold uppercase text-lg text-center"
@@ -1315,9 +1602,9 @@ const ContactUsPage = () => {
                     onClick={() => window.open(socialMediaLinks[5].url, '_blank')}
                   >
                     <MessageCircle size={24} className="text-green-600" />
-                    <div className="flex-1">
+                    <div className="w-full flex justify-center h-auto items-start flex-col">
                       <p className="font-semibold text-black text-sm">
-                        <div className="h-6"></div>
+                        <div className="h-auto"></div>
                         WhatsApp Us Directly
                       </p>
                       <p className="text-gray-600 text-xs">
@@ -1331,6 +1618,8 @@ const ContactUsPage = () => {
           </div>
         </div>
       </div>
+            <Footer />
+
     </div>
   );
 };

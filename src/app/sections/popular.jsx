@@ -1,81 +1,118 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, MapPin, Clock, Star, Thermometer } from 'lucide-react';
+"use client";
+import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, MapPin, Clock, Star, Thermometer } from "lucide-react";
 
 const destinations = [
   {
     id: 1,
     name: "Dubai",
     country: "United Arab Emirates",
-    description: "A dazzling metropolis where modern luxury meets traditional Arabian culture",
-    image: "https://images.pexels.com/photos/2044434/pexels-photo-2044434.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    description:
+      "A dazzling metropolis where modern luxury meets traditional Arabian culture",
+    image:
+      "https://images.pexels.com/photos/2044434/pexels-photo-2044434.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     price: "From AED 1,299",
     duration: "3-7 days",
     rating: 4.8,
     temperature: "25°C - 35°C",
-    highlights: ["Burj Khalifa", "Dubai Mall", "Desert Safari", "Palm Jumeirah"]
+    highlights: [
+      "Burj Khalifa",
+      "Dubai Mall",
+      "Desert Safari",
+      "Palm Jumeirah",
+    ],
   },
   {
     id: 2,
     name: "Paris",
     country: "France",
-    description: "The City of Light beckons with romance, art, and timeless elegance",
-    image: "https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    description:
+      "The City of Light beckons with romance, art, and timeless elegance",
+    image:
+      "https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     price: "From AED 2,499",
     duration: "4-8 days",
     rating: 4.9,
     temperature: "15°C - 25°C",
-    highlights: ["Eiffel Tower", "Louvre Museum", "Seine River", "Champs-Élysées"]
+    highlights: [
+      "Eiffel Tower",
+      "Louvre Museum",
+      "Seine River",
+      "Champs-Élysées",
+    ],
   },
   {
     id: 3,
     name: "Maldives",
     country: "Indian Ocean",
-    description: "Paradise islands with crystal-clear waters and pristine beaches",
-    image: "https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    description:
+      "Paradise islands with crystal-clear waters and pristine beaches",
+    image:
+      "https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     price: "From AED 3,999",
     duration: "5-10 days",
     rating: 4.9,
     temperature: "28°C - 32°C",
-    highlights: ["Overwater Villas", "Coral Reefs", "Water Sports", "Spa Treatments"]
+    highlights: [
+      "Overwater Villas",
+      "Coral Reefs",
+      "Water Sports",
+      "Spa Treatments",
+    ],
   },
   {
     id: 4,
     name: "Tokyo",
     country: "Japan",
-    description: "Where ancient traditions seamlessly blend with cutting-edge technology",
-    image: "https://images.pexels.com/photos/2614818/pexels-photo-2614818.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    description:
+      "Where ancient traditions seamlessly blend with cutting-edge technology",
+    image:
+      "https://images.pexels.com/photos/2614818/pexels-photo-2614818.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     price: "From AED 2,799",
     duration: "5-9 days",
     rating: 4.7,
     temperature: "18°C - 28°C",
-    highlights: ["Tokyo Tower", "Shibuya Crossing", "Mount Fuji", "Traditional Temples"]
+    highlights: [
+      "Tokyo Tower",
+      "Shibuya Crossing",
+      "Mount Fuji",
+      "Traditional Temples",
+    ],
   },
   {
     id: 5,
     name: "London",
     country: "United Kingdom",
-    description: "Historic charm meets modern sophistication in this iconic capital",
-    image: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    description:
+      "Historic charm meets modern sophistication in this iconic capital",
+    image:
+      "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     price: "From AED 2,199",
     duration: "4-7 days",
     rating: 4.6,
     temperature: "12°C - 22°C",
-    highlights: ["Big Ben", "London Eye", "British Museum", "Tower Bridge"]
+    highlights: ["Big Ben", "London Eye", "British Museum", "Tower Bridge"],
   },
   {
     id: 6,
     name: "Bali",
     country: "Indonesia",
-    description: "Tropical paradise with stunning beaches, temples, and rich culture",
-    image: "https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    description:
+      "Tropical paradise with stunning beaches, temples, and rich culture",
+    image:
+      "https://images.pexels.com/photos/2166553/pexels-photo-2166553.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     price: "From AED 1,899",
     duration: "5-8 days",
     rating: 4.8,
     temperature: "26°C - 30°C",
-    highlights: ["Rice Terraces", "Ancient Temples", "Beach Clubs", "Volcano Tours"]
-  }
+    highlights: [
+      "Rice Terraces",
+      "Ancient Temples",
+      "Beach Clubs",
+      "Volcano Tours",
+    ],
+  },
 ];
 
 const popular = () => {
@@ -96,20 +133,25 @@ const popular = () => {
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        <div className="mb-10 lg:mb-12">
+          <h2 className="text-2xl lg:text-3xl font-bold mb-4 GeistBold">
             EXPLORE THE WORLD
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover breathtaking destinations with our curated travel experiences
+          <p className="text-sm lg:text-base text-gray-700 max-w-2xl leading-relaxed Poppins">
+            Discover breathtaking destinations with our curated travel
+            experiences
           </p>
         </div>
 
         {/* Featured Destination */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
-          <div className={`space-y-6 transition-all duration-1000 ${
-            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-          }`}>
+          <div
+            className={`space-y-6 transition-all duration-1000 ${
+              isVisible
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 -translate-x-8"
+            }`}
+          >
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-black">
                 <MapPin className="h-5 w-5" />
@@ -117,7 +159,7 @@ const popular = () => {
                   {currentDestination.country}
                 </span>
               </div>
-              <h3 className="text-4xl md:text-5xl font-bold text-gray-900">
+              <h3 className="text-xl md:text-2xl font-bold PoppinBold text-black">
                 {currentDestination.name}
               </h3>
               <p className="text-lg text-gray-600 leading-relaxed">
@@ -133,7 +175,9 @@ const popular = () => {
                 </div>
                 <div>
                   <div className="text-sm text-gray-500">Duration</div>
-                  <div className="font-semibold text-gray-900">{currentDestination.duration}</div>
+                  <div className="font-semibold text-gray-900">
+                    {currentDestination.duration}
+                  </div>
                 </div>
               </div>
 
@@ -143,7 +187,9 @@ const popular = () => {
                 </div>
                 <div>
                   <div className="text-sm text-gray-500">Temperature</div>
-                  <div className="font-semibold text-gray-900">{currentDestination.temperature}</div>
+                  <div className="font-semibold text-gray-900">
+                    {currentDestination.temperature}
+                  </div>
                 </div>
               </div>
 
@@ -153,7 +199,9 @@ const popular = () => {
                 </div>
                 <div>
                   <div className="text-sm text-gray-500">Rating</div>
-                  <div className="font-semibold text-gray-900">{currentDestination.rating}/5</div>
+                  <div className="font-semibold text-gray-900">
+                    {currentDestination.rating}/5
+                  </div>
                 </div>
               </div>
 
@@ -163,17 +211,21 @@ const popular = () => {
                 </div>
                 <div>
                   <div className="text-sm text-gray-500">Starting</div>
-                  <div className="font-semibold text-gray-900">{currentDestination.price}</div>
+                  <div className="font-semibold text-gray-900">
+                    {currentDestination.price}
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Highlights */}
             <div>
-              <h4 className="font-semibold text-gray-900 mb-3">Top Attractions</h4>
+              <h4 className="font-semibold text-gray-900 mb-3">
+                Top Attractions
+              </h4>
               <div className="flex flex-wrap gap-2">
                 {currentDestination.highlights.map((highlight, index) => (
-                  <span 
+                  <span
                     key={index}
                     className="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm"
                   >
@@ -183,16 +235,20 @@ const popular = () => {
               </div>
             </div>
 
-            <Button className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-full font-semibold transition-colors duration-200">
+            {/* <Button className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-full font-semibold transition-colors duration-200">
               EXPLORE {currentDestination.name.toUpperCase()}
               <ArrowRight className="h-5 w-5 ml-2" />
-            </Button>
+            </Button> */}
           </div>
 
           {/* Image */}
-          <div className={`relative transition-all duration-1000 ${
-            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
-          }`}>
+          <div
+            className={`relative transition-all duration-1000 ${
+              isVisible
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 translate-x-8"
+            }`}
+          >
             <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
               <img
                 src={currentDestination.image}
@@ -201,8 +257,12 @@ const popular = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
               <div className="absolute bottom-6 left-6 text-white">
-                <div className="text-2xl font-bold">{currentDestination.name}</div>
-                <div className="text-lg opacity-90">{currentDestination.country}</div>
+                <div className="text-2xl font-bold">
+                  {currentDestination.name}
+                </div>
+                <div className="text-lg opacity-90">
+                  {currentDestination.country}
+                </div>
               </div>
             </div>
           </div>
@@ -215,9 +275,9 @@ const popular = () => {
               key={destination.id}
               onClick={() => setCurrentIndex(index)}
               className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 ${
-                index === currentIndex 
-                  ? 'scale-110' 
-                  : 'opacity-70 hover:opacity-100 hover:scale-105'
+                index === currentIndex
+                  ? "scale-110"
+                  : "opacity-70 hover:opacity-100 hover:scale-105"
               }`}
             >
               <img
