@@ -30,7 +30,7 @@ const header = () => {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-6">
               <a href="#services"
-                className="Poppins bg-transparent border-2 border-black text-black hover:bg-black hover:text-white px-7 py-2 rounded-full text-sm font-medium transition-all duration-300"
+                className="Poppins bg-transparent text-center border-2 border-black text-black hover:bg-black hover:text-white px-7 py-2 rounded-full text-sm font-medium transition-all duration-300"
               >
                 SERVICES
               </a>

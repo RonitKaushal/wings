@@ -56,8 +56,8 @@ const review = () => {
   };
 
   return (
-    <div>
-      <section className="w-full bg-black text-white py-8 lg:py-12 min-h-screen flex flex-col">
+    <div className="flex justify-center items-center flex-col w-full bg-black">
+      <section className="w-[95%] text-white py-8 lg:py-12 min-h-screen flex flex-col">
         <div className="max-w-7xl mx-auto w-full">
           {/* Header */}
           <div className="mb-10 lg:mb-12">

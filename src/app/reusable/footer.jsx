@@ -255,12 +255,12 @@ const Footer = () => {
                   <p className="text-gray-400">
                     <span className="text-white font-semibold">Facebook: </span>
                     <a
-                      href="https://facebook.com/wingsandwheelsinternational"
+                      href="https://www.facebook.com/people/Wings-Wheels/61579511346391"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-white transition-colors"
                     >
-                      wingsandwheelsinternational
+                      Wings & Wheels
                     </a>
                   </p>
                 </div>
@@ -283,12 +283,12 @@ const Footer = () => {
                       Instagram:{" "}
                     </span>
                     <a
-                      href="https://instagram.com/thewingsandwheels"
+                      href="https://www.instagram.com/wingsandwheels.travel/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-white transition-colors"
                     >
-                      @thewingsandwheels
+                      @wingsandwheels.travel
                     </a>
                   </p>
                 </div>

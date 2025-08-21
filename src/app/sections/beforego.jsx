@@ -3,8 +3,8 @@ import Image from "next/image";
 
 const beforego = () => {
   return (
-    <div>
-      <section className="w-full bg-gray-50 py-12 lg:py-20">
+    <div className="h-auto w-full flex justify-center items-center flex-col">
+      <section className="w-[95%] bg-gray-50 py-12 lg:py-20">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row items-start gap-8">
             {/* Left Side - Text Content */}
@@ -69,7 +69,7 @@ const beforego = () => {
             </div>
 
             {/* Right Side - Image */}
-            <div className="lg:w-1/2 h-full">
+            <div className="lg:w-1/2 h-0 md:h-full">
               <div className="relative rounded-2xl overflow-hidden shadow-xl h-[600px]">
                 <Image
                   src="/assets/airticket.jpg"

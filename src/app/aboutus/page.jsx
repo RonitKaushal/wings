@@ -105,7 +105,7 @@ const AboutUs = () => {
   }, []);
 
   return (
-    <div className="relative w-full bg-white min-h-screen overflow-x-hidden">
+    <div className="flex justify-center items-center flex-col w-[100vw] h-auto bg-white">
       {/* Hero Section with Background Image */}
       <div
         className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat overflow-hidden"
@@ -127,7 +127,7 @@ const AboutUs = () => {
               <div className="text-center px-4 sm:px-8">
                 {/* Main Heading */}
                 <h1
-                  className={`font-bold mb-6 uppercase GeistBlack text-7xl tracking-wider leading-tight text-white transition-all duration-1000 ${
+                  className={`font-bold mb-6 uppercase GeistBlack text-4xl md:text-7xl tracking-wider leading-tight text-white transition-all duration-1000 ${
                     isVisible
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-4"
@@ -144,14 +144,14 @@ const AboutUs = () => {
                       : "opacity-0 translate-y-4"
                   }`}
                 >
-                  <h2 className="text-xl Poppins md:text-2xl font-light text-gray-200 mb-4 tracking-wide">
+                  <h2 className="text-sm PoppinBold md:text-xl font-light text-gray-200 mb-4 tracking-wide">
                     PROFESSIONAL TRAVEL SERVICES SINCE 2010
                   </h2>
                 </div>
 
                 {/* Description */}
                 <p
-                  className={`font-light Poppins leading-relaxed mb-8 max-w-3xl mx-auto text-gray-100 transition-all duration-1400 delay-500 ${
+                  className={`Poppins text-sm md:text-lg leading-relaxed mb-8 max-w-3xl mx-auto text-gray-100 transition-all duration-1400 delay-500 ${
                     isVisible
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-4"
@@ -165,7 +165,7 @@ const AboutUs = () => {
 
                 {/* Key Stats */}
                 <div
-                  className={`grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto transition-all duration-1600 delay-700 ${
+                  className={`grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-2xl mx-auto transition-all duration-1600 delay-700 ${
                     isVisible
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-4"
@@ -173,7 +173,7 @@ const AboutUs = () => {
                 >
                   <div className="text-center Poppins">
                     <div className="text-3xl font-bold text-white mb-1">
-                      15+
+                      13+
                     </div>
                     <div className="text-sm text-gray-300 uppercase tracking-wide">
                       Years Experience
@@ -195,6 +195,15 @@ const AboutUs = () => {
                       Destinations
                     </div>
                   </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-white mb-1">
+                      10+
+                    </div>
+                    <div className="text-sm text-gray-300 uppercase tracking-wide">
+                      Packages
+                    </div>
+                  </div>
+
                 </div>
 
                 <div className="absolute z-0 top-0 left-0 w-[100vw] h-full bg-gradient-to-b from-white/80 via-transparent to-transparent"></div>
@@ -528,7 +537,7 @@ const AboutUs = () => {
       </div>
 
       {/* Statistics Section */}
-      <div id="stats" className="py-24 bg-black text-white">
+      <div id="stats" className="py-24 bg-black rounded-2xl text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
             className={`transition-all duration-1000 ${
@@ -682,7 +691,7 @@ const AboutUs = () => {
       {/* 24/7 Support - We're With You Every Step Section */}
       <div
         id="support-24-7"
-        className="py-24 bg-gradient-to-br from-gray-50 to-gray-100"
+        className="py-24 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl hidden md:block"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div

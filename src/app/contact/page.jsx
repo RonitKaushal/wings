@@ -474,7 +474,7 @@ const ContactUsPage = () => {
               <div className="text-center px-4 sm:px-8">
                 {/* Main Heading */}
                 <h1 
-                  className={`text-7xl mb-4 uppercase tracking-wider leading-tight text-white transition-all duration-1000 GeistBlack ${
+                  className={`GeistBlack text-4xl md:text-7xl mb-4 uppercase tracking-wider leading-tight text-white transition-all duration-1000 GeistBlack ${
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                   }`}
                 >
@@ -483,7 +483,7 @@ const ContactUsPage = () => {
 
                 {/* Description */}
                 <p 
-                  className={`text-xl leading-relaxed mb-6 max-w-2xl mx-auto text-white transition-all duration-1200 Poppins ${
+                  className={`Poppins text-sm md:text-lg leading-relaxed mb-6 max-w-2xl mx-auto text-white transition-all duration-1200 Poppins ${
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                   }`}
                 >
